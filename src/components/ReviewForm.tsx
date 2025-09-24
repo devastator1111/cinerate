@@ -21,42 +21,65 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
   window.location.href = "/auth";
   return;
 }
-
-
+    // clamp and snap to 0.5 steps between 1 and 10
+    const clamped = Math.min(10, Math.max(1, Math.round(rating * 2) / 2));
     await supabaseBrowser.from("reviews").insert({
-      rating,
+      rating: clamped,
       review_text: text,
-      user_id: session.user.id,
+      user_id: session.user!.id,
       movie_id: movieId,
     });
     window.location.reload();
   }
 
   return (
-    <form onSubmit={submit} className="mt-4 p-4 border rounded max-w-md">
+    <form onSubmit={submit} className="mt-4 card max-w-md">
       <label className="block">
-        Rating (0–10)
+        <div className="flex items-center justify-between">
+          <span>Rating</span>
+          <span className="muted text-sm">{rating.toFixed(1)} / 10</span>
+        </div>
         <input
           type="number"
-          step="0.1"
-          min="0"
-          max="10"
+          step="0.5"
+          min={1}
+          max={10}
           value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-          className="ml-2 border rounded px-2"
+          onChange={(e) => {
+            const v = Number(e.target.value);
+            if (Number.isFinite(v)) setRating(v);
+          }}
+          className="input mt-2 w-28"
         />
       </label>
-      <label className="block mt-2">
-        Write a review
+
+      <label className="block mt-4">
+        <div className="flex items-center justify-between">
+          <span>Write a review</span>
+          <span className="muted text-sm">Optional</span>
+        </div>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="w-full mt-1 border rounded p-2"
+          className="input mt-2 w-full h-28"
         />
       </label>
-      <button type="submit" className="mt-3 px-4 py-2 border rounded">
-        Submit Review
-      </button>
+
+      <div className="mt-4 flex gap-3">
+        <button type="submit" className="btn btn-primary">
+          Submit Review
+        </button>
+        <button
+          type="button"
+          className="btn btn-ghost"
+          onClick={() => {
+            setRating(8.0);
+            setText("");
+          }}
+        >
+          Reset
+        </button>
+      </div>
     </form>
   );
 }

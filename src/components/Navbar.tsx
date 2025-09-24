@@ -18,28 +18,22 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex items-center justify-between px-6 py-3 border-b bg-black text-white">
+    <nav className="flex items-center justify-between px-6 py-4 border-b" style={{background: 'linear-gradient(90deg, rgba(255,255,255,0.02), transparent)'}}>
       <Link href="/" className="text-xl font-bold">
-        CineRate 🎬
+        CineRate <span className="muted">🎬</span>
       </Link>
       <div className="flex items-center gap-4">
         {session ? (
           <>
-            <span className="text-sm">
-              Signed in as <b>{session.user.email}</b>
+            <span className="text-sm muted">
+              Signed in as <b className="text-sm">{session.user.email}</b>
             </span>
-            <button
-              onClick={signOut}
-              className="px-3 py-1 border rounded hover:bg-gray-800"
-            >
+            <button onClick={signOut} className="btn btn-ghost">
               Sign Out
             </button>
           </>
         ) : (
-          <Link
-            href="/auth"
-            className="px-3 py-1 border rounded hover:bg-gray-800"
-          >
+          <Link href="/auth" className="btn btn-primary">
             Sign In
           </Link>
         )}

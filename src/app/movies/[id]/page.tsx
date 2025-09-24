@@ -63,15 +63,19 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
           <div className="mt-4 space-y-4">
             {reviews?.length ? (
               reviews.map((r: MovieReview) => (
-                <div key={r.review_id} className="p-3 border rounded">
-                  <div className="flex justify-between">
-                    <strong>{r.user_id}</strong> {/* will show UUID for now */}
-                    <span className="text-sm">
-                      {new Date(r.created_at).toLocaleString()}
-                    </span>
+                <div key={r.review_id} className="card">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <strong>{r.users?.username ?? (r.user_id ? String(r.user_id).slice(0, 8) : 'Anonymous')}</strong>
+                      <div className="muted text-sm">{new Date(r.created_at).toLocaleString()}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="px-3 py-1" style={{background: 'linear-gradient(90deg, rgba(124,58,237,0.15), rgba(6,182,212,0.06))', borderRadius: 8}}>
+                        <span className="font-bold">⭐ {r.rating}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>⭐ {r.rating}</div>
-                  <p className="mt-2">{r.review_text}</p>
+                  {r.review_text && <p className="mt-3 muted">{r.review_text}</p>}
                 </div>
               ))
             ) : (

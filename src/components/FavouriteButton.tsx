@@ -29,9 +29,9 @@ export default function FavouriteButton({ movieId }: { movieId: number }) {
 
   async function toggle() {
     if (!session) {
-  window.location.href = "/auth";
-  return;
-}
+      window.location.href = "/auth";
+      return;
+    }
 
     if (isFav) {
       await supabaseBrowser
@@ -49,7 +49,7 @@ export default function FavouriteButton({ movieId }: { movieId: number }) {
   }
 
   return (
-    <button onClick={toggle} className="px-4 py-2 border rounded">
+    <button onClick={toggle} className={`btn ${isFav ? "btn-primary" : "btn-ghost"}`}>
       {isFav ? "♥ Favorited" : "♡ Add to Favourites"}
     </button>
   );
