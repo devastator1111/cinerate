@@ -1,4 +1,4 @@
-import { handleAuth } from "@supabase/auth-helpers-nextjs";
+import * as AuthHelpers from "@supabase/auth-helpers-nextjs";
 
 // Handle Supabase auth callback and set server cookies so server components
 // can read the authenticated session via createServerComponentClient({ cookies }).
@@ -7,7 +7,18 @@ import { handleAuth } from "@supabase/auth-helpers-nextjs";
 // It's safe to silence the type error here because the function is valid at runtime.
 import type { NextRequest } from "next/server";
 
-const handler = handleAuth();
+function resolveHandleAuth() {
+	const mod = AuthHelpers as unknown as Record<string, unknown>;
+		if (typeof mod["handleAuth"] === "function") return mod["handleAuth"] as (opts?: unknown) => unknown;
+	const def = mod["default"] as Record<string, unknown> | undefined;
+		if (def && typeof def["handleAuth"] === "function") return def["handleAuth"] as (opts?: unknown) => unknown;
+		if (typeof def === "function") return def as unknown as (opts?: unknown) => unknown;
+		if (typeof (AuthHelpers as unknown) === "function") return AuthHelpers as unknown as (opts?: unknown) => unknown;
+	throw new Error("Could not resolve handleAuth from @supabase/auth-helpers-nextjs");
+}
+
+const handlerFactory = resolveHandleAuth();
+const handler = handlerFactory();
 
 async function runHandler(method: "GET" | "POST", req: NextRequest, ctx: unknown) {
 	// handler may be a function(req) or an object with GET/POST methods
