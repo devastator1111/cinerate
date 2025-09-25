@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabaseBrowser } from "@/lib/supabaseClient";
+import { LogOut, PlusCircle } from "lucide-react"; // 👈 icons
 
 export default function Navbar() {
   const [session, setSession] = useState<Session | null>(null);
@@ -18,7 +19,12 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 border-b" style={{background: 'linear-gradient(90deg, rgba(255,255,255,0.02), transparent)'}}>
+    <nav
+      className="flex items-center justify-between px-6 py-4 border-b"
+      style={{
+        background: "linear-gradient(90deg, rgba(255,255,255,0.02), transparent)",
+      }}
+    >
       <Link href="/" className="text-xl font-bold">
         CineRate <span className="muted">🎬</span>
       </Link>
@@ -28,11 +34,23 @@ export default function Navbar() {
             <span className="text-sm muted">
               Signed in as <b className="text-sm">{session.user.email}</b>
             </span>
-            <Link href="/movies/add" className="px-3 py-1 border rounded hover:bg-gray-800">
-              Add Movie
+
+            {/* Add Movie (icon) */}
+            <Link
+              href="/movies/add"
+              className="p-2 rounded hover:bg-gray-800"
+              title="Add Movie"
+            >
+              <PlusCircle size={22} />
             </Link>
-            <button onClick={signOut} className="btn btn-ghost">
-              Sign Out
+
+            {/* Sign Out (icon) */}
+            <button
+              onClick={signOut}
+              className="p-2 rounded hover:bg-gray-800"
+              title="Sign Out"
+            >
+              <LogOut size={22} />
             </button>
           </>
         ) : (

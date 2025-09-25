@@ -27,6 +27,7 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
       rating: clamped,
       review_text: text,
       user_id: session.user!.id,
+      user_email: session.user.email,
       movie_id: movieId,
     });
     window.location.reload();

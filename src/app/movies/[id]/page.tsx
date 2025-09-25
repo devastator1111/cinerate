@@ -12,7 +12,15 @@ type ReviewRow = {
 };
 
 // Reviews in the DB also include a `user_id` (UUID) field — type it explicitly to avoid `any`.
-type MovieReview = ReviewRow & { user_id?: string | null };
+type MovieReview = {
+  review_id: number;
+  rating: number;
+  review_text: string;
+  created_at: string;
+  user_id?: string | null;
+  user_email?: string | null;
+  users?: { id: number; username?: string } | null;
+};
 
 export default async function MoviePage({ params }: { params: { id: string } }) {
   const id = Number(params.id);
@@ -26,10 +34,10 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
   if (!movie) return <div className="p-6">Movie not found</div>;
 
     const { data: reviews } = await supabaseServer
-    .from("reviews")
-    .select("*")
-    .eq("movie_id", id)
-    .order("created_at", { ascending: false });
+  .from("reviews")
+  .select("review_id, rating, review_text, created_at, user_id, user_email")
+  .eq("movie_id", id)
+  .order("created_at", { ascending: false });
 
 
   return (
@@ -66,7 +74,7 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
                 <div key={r.review_id} className="card">
                   <div className="flex items-start justify-between">
                     <div>
-                      <strong>{r.users?.username ?? (r.user_id ? String(r.user_id).slice(0, 8) : 'Anonymous')}</strong>
+                      <strong>{r.user_email ?? (r.user_id ? String(r.user_id).slice(0, 8) : "Anonymous")}</strong>
                       <div className="muted text-sm">{new Date(r.created_at).toLocaleString()}</div>
                     </div>
                     <div className="text-right">
