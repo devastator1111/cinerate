@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { supabaseServer } from "@/lib/supabaseServer";
 
+// ensure this page is dynamically rendered in production so new movies appear without a redeploy
+export const dynamic = "force-dynamic";
+
 type MovieRatingRow = {
   movie_id: number;
   name: string;

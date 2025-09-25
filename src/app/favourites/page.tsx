@@ -1,21 +1,21 @@
-import { supabaseServer } from "@/lib/supabaseServer";
+import { supabaseServerClient } from "@/lib/supabaseServerClient";
 import Link from "next/link";
 import Image from "next/image";
 
 type FavouriteRow = {
   movie_id: number;
-  // Supabase returns an array for related rows unless `single()` is used
   movies?: { name?: string | null; year?: number | null; poster_url?: string | null }[] | null;
 };
 
 export default async function FavouritesPage() {
-  // Get current user session server-side
+  const supabase = supabaseServerClient();
+
+  // ✅ This will work now, because it reads session from cookies
   const {
     data: { user },
-    error: userError,
-  } = await supabaseServer.auth.getUser();
+  } = await supabase.auth.getUser();
 
-  if (userError || !user) {
+  if (!user) {
     return (
       <div className="p-6">
         <h2 className="text-xl font-bold">Please sign in to view favourites</h2>
@@ -26,8 +26,7 @@ export default async function FavouritesPage() {
     );
   }
 
-  // Get all movies in this user’s favourites
-  const { data: favs, error } = await supabaseServer
+  const { data: favs, error } = await supabase
     .from("favourite")
     .select("movie_id, movies(name, year, poster_url)")
     .eq("user_id", user.id);
