@@ -1,7 +1,9 @@
+// src/lib/supabaseServerClient.ts
 import { cookies } from "next/headers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-// import type { Database } from "./database.types"; // removed because the file/decl is not present
+import * as AuthHelpers from "@supabase/auth-helpers-nextjs";
 
 export function supabaseServerClient() {
-  return createServerComponentClient({ cookies });
+  // `createServerComponentClient` exists at runtime; import via namespace to avoid TS export mismatch
+  // @ts-expect-error-next-line - namespace import used because the package's typings don't export this symbol directly
+  return AuthHelpers.createServerComponentClient({ cookies });
 }
