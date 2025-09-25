@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Clapperboard, Star } from "lucide-react";
 import { supabaseServer } from "@/lib/supabaseServer";
 
 // ensure this page is dynamically rendered in production so new movies appear without a redeploy
@@ -65,7 +66,7 @@ export default async function Home() {
 
   return (
     <main className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">CineRate 🎬</h1>
+  <h1 className="text-3xl font-bold mb-6 flex items-center gap-2">CineRate <Clapperboard size={32} /></h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   {movies.map((m: MovieRatingRow) => (
           <Link
@@ -85,8 +86,8 @@ export default async function Home() {
                 <h2 className="text-lg font-semibold">
                   {m.name} ({m.year || "—"})
                 </h2>
-                <p className="text-sm">
-                  ⭐ {m.avg_rating ?? 0} • {m.review_count ?? 0} reviews
+                <p className="text-sm flex items-center gap-2">
+                  <Star size={14} className="text-yellow-400" /> {m.avg_rating ?? 0} • {m.review_count ?? 0} reviews
                 </p>
               </div>
             </div>

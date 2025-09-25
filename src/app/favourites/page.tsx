@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Star } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { supabaseBrowser } from "@/lib/supabaseClient";
@@ -82,7 +83,7 @@ export default function FavouritesPage() {
 
   return (
     <main className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">⭐ My Favourites</h1>
+  <h1 className="text-2xl font-bold mb-6 flex items-center gap-2"><Star size={18} className="text-yellow-400"/> My Favourites</h1>
       {favs && favs.length ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {favs.map((f) => {
@@ -98,7 +99,7 @@ export default function FavouritesPage() {
           })}
         </div>
       ) : (
-        <p>No favourites yet. Add some movies ⭐</p>
+  <p>No favourites yet. Add some movies <Star size={14} className="text-yellow-400"/></p>
       )}
     </main>
   );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Star } from "lucide-react";
 import { supabaseServer } from "@/lib/supabaseServer";
 import FavouriteButton from "../../../components/FavouriteButton";
 import ReviewForm from "../../../components/ReviewForm";
@@ -70,8 +71,8 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
                       <div className="muted text-sm">{new Date(r.created_at).toLocaleString()}</div>
                     </div>
                     <div className="text-right">
-                      <div className="px-3 py-1" style={{background: 'linear-gradient(90deg, rgba(124,58,237,0.15), rgba(6,182,212,0.06))', borderRadius: 8}}>
-                        <span className="font-bold">⭐ {r.rating}</span>
+                        <div className="px-3 py-1 flex items-center gap-2" style={{background: 'linear-gradient(90deg, rgba(124,58,237,0.15), rgba(6,182,212,0.06))', borderRadius: 8}}>
+                        <Star size={16} className="text-yellow-400" /> <span className="font-bold">{r.rating}</span>
                       </div>
                     </div>
                   </div>

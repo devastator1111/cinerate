@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Clapperboard } from "lucide-react";
 import type { Session } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabaseClient";
@@ -49,7 +50,7 @@ export default function AddMoviePage() {
 
   return (
     <div className="max-w-lg mx-auto p-6 card">
-      <h1 className="text-2xl font-bold mb-4">Add a Movie 🎬</h1>
+  <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">Add a Movie <Clapperboard size={26} /></h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block font-semibold">Name</label>
