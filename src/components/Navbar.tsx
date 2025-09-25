@@ -3,14 +3,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabaseBrowser } from "@/lib/supabaseClient";
-import { LogOut, PlusCircle, Clapperboard, Star } from "lucide-react"; // 👈 icons
+import { LogOut, PlusCircle, Clapperboard, Star, Bookmark } from "lucide-react"; // 👈 icons
 
 export default function Navbar() {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     supabaseBrowser.auth.getSession().then(({ data }) => setSession(data.session));
-    supabaseBrowser.auth.onAuthStateChange((_e, s) => setSession(s ?? null));
+    const { data: listener } = supabaseBrowser.auth.onAuthStateChange((_e, s) => setSession(s ?? null));
+    return () => listener?.subscription.unsubscribe();
   }, []);
 
   async function signOut() {
@@ -35,13 +36,14 @@ export default function Navbar() {
               Signed in as <b className="text-sm">{session.user.email}</b>
             </span>
             {/* Favourites (icon) */}
-              <Link
-                  href="/favourites"
-                  className="p-2 rounded hover:bg-gray-800"
-                  title="Favourites"
-                >
-                  <Star size={18} className="text-yellow-400" />
-               </Link>
+              <Link href="/favourites" className="p-2 rounded hover:bg-gray-800" title="Favourites">
+                <Star size={18} className="text-yellow-400" />
+              </Link>
+
+              {/* Wishlist (icon) */}
+              <Link href="/wishlist" className="p-2 rounded hover:bg-gray-800" title="Wishlist">
+                <Bookmark size={18} />
+              </Link>
 
             {/* Add Movie (icon) */}
             <Link

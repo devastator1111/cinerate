@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { supabaseServer } from "@/lib/supabaseServer";
 import FavouriteButton from "../../../components/FavouriteButton";
+import WishlistButton from "../../../components/WishlistButton";
 import ReviewForm from "../../../components/ReviewForm";
 
 // Reviews in the DB also include a `user_id` (UUID) field — type it explicitly to avoid `any`.
@@ -36,13 +37,15 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <div className="flex gap-6">
-        <Image
-          src={movie.poster_url || "/placeholder.png"}
-          alt={movie.name}
-          width={144}
-          height={208}
-          className="object-cover rounded"
-        />
+        <div className="rounded overflow-hidden border border-gray-600/30">
+          <Image
+            src={movie.poster_url || "/placeholder.png"}
+            alt={movie.name}
+            width={144}
+            height={208}
+            className="object-cover"
+          />
+        </div>
         <div>
           <h1 className="text-2xl font-bold">
             {movie.name} ({movie.year})
@@ -50,6 +53,7 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
           <p className="mt-2">{movie.description}</p>
           <div className="mt-4 flex gap-3">
             <FavouriteButton movieId={movie.movie_id} />
+            <WishlistButton movieId={movie.movie_id} />
           </div>
         </div>
       </div>
@@ -64,7 +68,7 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
           <div className="mt-4 space-y-4">
             {reviews?.length ? (
               reviews.map((r: MovieReview) => (
-                <div key={r.review_id} className="card">
+                  <div key={r.review_id} className="card border border-gray-600/20">
                   <div className="flex items-start justify-between">
                     <div>
                       <strong>{r.user_email ?? (r.user_id ? String(r.user_id).slice(0, 8) : "Anonymous")}</strong>

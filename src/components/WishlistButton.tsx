@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabaseBrowser } from "@/lib/supabaseClient";
 
-export default function FavouriteButton({ movieId }: { movieId: number }) {
+export default function WishlistButton({ movieId }: { movieId: number }) {
   const [session, setSession] = useState<Session | null>(null);
-  const [isFav, setIsFav] = useState(false);
+  const [isWish, setIsWish] = useState(false);
 
   useEffect(() => {
     supabaseBrowser.auth.getSession().then(({ data }) => setSession(data.session ?? null));
@@ -19,11 +19,11 @@ export default function FavouriteButton({ movieId }: { movieId: number }) {
     if (!session) return;
     (async () => {
       const { data } = await supabaseBrowser
-        .from("favourite")
+        .from("wishlist")
         .select("*")
         .eq("user_id", session.user.id)
         .eq("movie_id", movieId);
-      setIsFav((data ?? []).length > 0);
+      setIsWish((data ?? []).length > 0);
     })();
   }, [session, movieId]);
 
@@ -33,24 +33,24 @@ export default function FavouriteButton({ movieId }: { movieId: number }) {
       return;
     }
 
-    if (isFav) {
+    if (isWish) {
       await supabaseBrowser
-        .from("favourite")
+        .from("wishlist")
         .delete()
         .eq("user_id", session.user.id)
         .eq("movie_id", movieId);
-      setIsFav(false);
+      setIsWish(false);
     } else {
       await supabaseBrowser
-        .from("favourite")
+        .from("wishlist")
         .insert({ user_id: session.user.id, movie_id: movieId });
-      setIsFav(true);
+      setIsWish(true);
     }
   }
 
   return (
-    <button onClick={toggle} className={`btn ${isFav ? "btn-primary" : "btn-ghost"} border border-gray-600/40` }>
-      {isFav ? "♥ Favorited" : "♡ Add to Favourites"}
+    <button onClick={toggle} className={`btn ${isWish ? "btn-primary" : "btn-ghost"} border border-gray-600/40`}>
+      {isWish ? "✓ Wishlisted" : "+ Add to Wishlist"}
     </button>
   );
 }

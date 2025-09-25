@@ -4,7 +4,8 @@ import type { Session } from "@supabase/supabase-js";
 import { supabaseBrowser } from "@/lib/supabaseClient";
 
 export default function ReviewForm({ movieId }: { movieId: number }) {
-  const [rating, setRating] = useState(8.0);
+  // default rating when opening the review form
+  const [rating, setRating] = useState(1.0);
   const [text, setText] = useState("");
   const [session, setSession] = useState<Session | null>(null);
 
@@ -21,8 +22,8 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
   window.location.href = "/auth";
   return;
 }
-    // clamp and snap to 0.5 steps between 1 and 10
-    const clamped = Math.min(10, Math.max(1, Math.round(rating * 2) / 2));
+    // clamp and snap to 0.5 steps between 0.5 and 10
+    const clamped = Math.min(10, Math.max(0.5, Math.round(rating * 2) / 2));
     await supabaseBrowser.from("reviews").insert({
       rating: clamped,
       review_text: text,
@@ -44,12 +45,12 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
           <div
             className="star-rating"
             role="slider"
-            aria-valuemin={1}
+            aria-valuemin={0.5}
             aria-valuemax={10}
             aria-valuenow={rating}
             tabIndex={0}
             onKeyDown={(e) => {
-              if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') setRating(prev => Math.max(1, Math.round((prev - 0.5) * 2) / 2));
+              if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') setRating(prev => Math.max(0.5, Math.round((prev - 0.5) * 2) / 2));
               if (e.key === 'ArrowRight' || e.key === 'ArrowUp') setRating(prev => Math.min(10, Math.round((prev + 0.5) * 2) / 2));
             }}
           >
@@ -77,7 +78,7 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
                       }
 
                       let newRating = clickedHalf === 1 ? value : value - 0.5;
-                      newRating = Math.min(10, Math.max(1, newRating));
+                      newRating = Math.min(10, Math.max(0.5, newRating));
                       setRating(Math.round(newRating * 2) / 2);
                     }}
                     style={{ position: 'relative' }}
@@ -101,7 +102,7 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
           <input
             className="sr-only"
             type="range"
-            min={1}
+            min={0.5}
             max={10}
             step={0.5}
             value={rating}
@@ -130,8 +131,8 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
         <button
           type="button"
           className="btn btn-ghost"
-          onClick={() => {
-            setRating(8.0);
+            onClick={() => {
+            setRating(1.0);
             setText("");
           }}
         >
