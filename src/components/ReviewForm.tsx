@@ -35,7 +35,7 @@ export default function ReviewForm({ movieId }: { movieId: number }) {
   }
 
   return (
-    <form onSubmit={submit} className="mt-4 card max-w-md">
+    <form onSubmit={submit} className="mt-4 card w-full">
       <label className="block">
         <div className="flex items-center justify-between">
           <span>Rating</span>
