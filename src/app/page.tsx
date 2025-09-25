@@ -65,9 +65,12 @@ export default async function Home() {
   };
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
-  <h1 className="text-3xl font-bold mb-6 flex items-center gap-2">CineRate <Clapperboard size={32} /></h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <main className="p-6 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6 flex items-center gap-2">CineRate <Clapperboard size={32} /></h1>
+      <div
+        className="grid gap-4"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}
+      >
   {movies.map((m: MovieRatingRow) => (
           <Link
             key={m.movie_id}
