@@ -3,14 +3,6 @@ import { supabaseServer } from "@/lib/supabaseServer";
 import FavouriteButton from "../../../components/FavouriteButton";
 import ReviewForm from "../../../components/ReviewForm";
 
-type ReviewRow = {
-  review_id: number;
-  rating: number;
-  review_text: string;
-  created_at: string;
-  users?: { id: number; username?: string } | null;
-};
-
 // Reviews in the DB also include a `user_id` (UUID) field — type it explicitly to avoid `any`.
 type MovieReview = {
   review_id: number;

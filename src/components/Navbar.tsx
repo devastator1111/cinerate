@@ -34,6 +34,14 @@ export default function Navbar() {
             <span className="text-sm muted">
               Signed in as <b className="text-sm">{session.user.email}</b>
             </span>
+            {/* Favourites (icon) */}
+              <Link
+                  href="/favourites"
+                  className="p-2 rounded hover:bg-gray-800"
+                  title="Favourites"
+                >
+                  ⭐
+               </Link>
 
             {/* Add Movie (icon) */}
             <Link
