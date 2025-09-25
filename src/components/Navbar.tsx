@@ -28,6 +28,9 @@ export default function Navbar() {
             <span className="text-sm muted">
               Signed in as <b className="text-sm">{session.user.email}</b>
             </span>
+            <Link href="/movies/add" className="px-3 py-1 border rounded hover:bg-gray-800">
+              Add Movie
+            </Link>
             <button onClick={signOut} className="btn btn-ghost">
               Sign Out
             </button>
