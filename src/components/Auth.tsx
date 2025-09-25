@@ -10,7 +10,17 @@ export default function SupabaseAuth() {
         <h2 className="text-lg font-bold mb-3">Sign in to CineRate</h2>
         <Auth
           supabaseClient={supabaseBrowser}
-          appearance={{ theme: ThemeSupa }}
+          appearance={{ 
+            theme: ThemeSupa,
+            variables: {
+              default: {
+                colors: {
+                  brand: 'red',
+                  brandAccent: 'darkred',
+                },
+              },
+            },
+           }}
           providers={["google"]}
         />
       </div>
