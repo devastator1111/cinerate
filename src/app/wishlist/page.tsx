@@ -79,13 +79,13 @@ export default function WishlistPage() {
   if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
+    <main className="p-6 max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
         <Star size={18} className="text-yellow-400"/> My Wishlist
         <span className="ml-2 text-md muted">{items ? items.length : 0}</span>
       </h1>
       {items && items.length ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
           {items.map((f) => {
             const movie = Array.isArray(f.movies) ? f.movies[0] : f.movies;
             return (

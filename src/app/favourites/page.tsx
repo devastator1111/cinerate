@@ -82,10 +82,10 @@ export default function FavouritesPage() {
   if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
   return (
-    <main className="p-6 max-w-4xl mx-auto">
-  <h1 className="text-2xl font-bold mb-6 flex items-center gap-2"><Star size={18} className="text-yellow-400"/> My Favourites</h1>
+    <main className="p-6 max-w-7xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6 flex items-center gap-2"><Star size={18} className="text-yellow-400"/> My Favourites</h1>
       {favs && favs.length ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
           {favs.map((f) => {
             const movie = Array.isArray(f.movies) ? f.movies[0] : f.movies;
             return (
