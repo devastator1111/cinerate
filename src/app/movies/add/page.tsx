@@ -14,6 +14,8 @@ export default function AddMoviePage() {
   const [year, setYear] = useState<number | undefined>();
   const [description, setDescription] = useState("");
   const [posterUrl, setPosterUrl] = useState("");
+  const [language, setLanguage] = useState("");
+  const [country, setCountry] = useState("");
 
   useEffect(() => {
     supabaseBrowser.auth.getSession().then(({ data }) => setSession(data.session));
@@ -38,6 +40,8 @@ export default function AddMoviePage() {
       year,
       description,
       poster_url: posterUrl,
+      language: language || null,
+      country: country || null,
     });
 
     if (error) {
@@ -92,6 +96,24 @@ export default function AddMoviePage() {
             type="url"
             value={posterUrl}
             onChange={(e) => setPosterUrl(e.target.value)}
+            className="input w-full mt-2"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Language</label>
+          <input
+            type="text"
+            value={language}
+            onChange={(e) => setLanguage(e.target.value)}
+            className="input w-full mt-2"
+          />
+        </div>
+        <div>
+          <label className="block font-semibold">Country</label>
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
             className="input w-full mt-2"
           />
         </div>

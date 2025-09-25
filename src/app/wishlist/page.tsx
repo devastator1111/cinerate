@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import buildPosterSrc from "@/lib/buildPosterSrc";
 import { supabaseBrowser } from "@/lib/supabaseClient";
 import { Star } from "lucide-react";
 
@@ -90,7 +91,7 @@ export default function WishlistPage() {
             const movie = Array.isArray(f.movies) ? f.movies[0] : f.movies;
             return (
               <Link key={f.movie_id} href={`/movies/${f.movie_id}`} className="p-4 border rounded hover:shadow flex gap-4 items-center">
-                <Image src={movie?.poster_url ?? "/placeholder.png"} alt={movie?.name ?? ""} width={80} height={112} className="object-cover rounded" />
+                <Image src={buildPosterSrc(movie?.poster_url)} alt={movie?.name ?? ""} width={80} height={112} className="object-cover rounded" />
                 <div>
                   <h2 className="text-lg font-semibold">{movie?.name} ({movie?.year ?? "—"})</h2>
                 </div>

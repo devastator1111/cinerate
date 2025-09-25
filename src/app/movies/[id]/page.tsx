@@ -4,6 +4,7 @@ import { supabaseServer } from "@/lib/supabaseServer";
 import FavouriteButton from "../../../components/FavouriteButton";
 import WishlistButton from "../../../components/WishlistButton";
 import ReviewForm from "../../../components/ReviewForm";
+import buildPosterSrc from "@/lib/buildPosterSrc";
 
 // Reviews in the DB also include a `user_id` (UUID) field — type it explicitly to avoid `any`.
 type MovieReview = {
@@ -37,9 +38,9 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <div className="flex gap-6">
-        <div className="rounded overflow-hidden border border-gray-600/30">
+          <div className="rounded overflow-hidden border border-gray-600/30">
           <Image
-            src={movie.poster_url || "/placeholder.png"}
+            src={buildPosterSrc(movie.poster_url)}
             alt={movie.name}
             width={144}
             height={208}
@@ -51,6 +52,13 @@ export default async function MoviePage({ params }: { params: { id: string } }) 
             {movie.name} ({movie.year})
           </h1>
           <p className="mt-2">{movie.description}</p>
+          {(movie.language || movie.country) && (
+            <p className="mt-2 text-sm muted">
+              {movie.language ? <>Language: <strong>{movie.language}</strong></> : null}
+              {movie.language && movie.country ? <> &middot; </> : null}
+              {movie.country ? <>Country: <strong>{movie.country}</strong></> : null}
+            </p>
+          )}
           <div className="mt-4 flex gap-3">
             <FavouriteButton movieId={movie.movie_id} />
             <WishlistButton movieId={movie.movie_id} />
